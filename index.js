@@ -81,11 +81,11 @@ client.on("message", message => {
 		let args = messageArray.slice(1);
 
 		let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
-		if(!rUser) return message.channel.send("Utilisateur introuvable.");
+		if(!rUser) return message.channel.send("Utilisateur introuvable ou ,p, mentionné.");
 
 		// Reason of the report
 		let reason = args.join(" ").slice(22);
-		if(!reason) return message.channel.send("Merci de noous dire la raison de ce report.")
+		if(!reason) return message.channel.send("Merci de nous dire la raison de ce report.")
 
 		let reportEmbed = new RichEmbed()
 		.setDescription("Reports")
@@ -97,7 +97,7 @@ client.on("message", message => {
 		.addField("Raison", `${reason}`);
 
 		let reportsChannel = message.guild.channels.find("name", "reports");
-		if(!reportsChannel) return message.channel.send("Couldn't find reports channel");
+		if(!reportsChannel) return message.channel.send("Channel ``reports`` introuvable.");
 
 		message.delete().catch(O_o=>{});
 		reportsChannel.send(reportEmbed);
