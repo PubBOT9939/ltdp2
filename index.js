@@ -81,11 +81,11 @@ client.on("message", message => {
 		let args = messageArray.slice(1);
 
 		let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
-		if(!rUser) return message.channel.send("Utilisateur introuvable ou ,p, mentionné.");
+		if(!rUser) return message.channel.send("Utilisateur introuvable.");
 
 		// Reason of the report
 		let reason = args.join(" ").slice(22);
-		if(!reason) return message.channel.send("Merci de nous dire la raison de ce report.")
+		if(!reason) return message.channel.send("Merci de noous dire la raison de ce report.")
 
 		let reportEmbed = new RichEmbed()
 		.setDescription("Reports")
@@ -97,7 +97,7 @@ client.on("message", message => {
 		.addField("Raison", `${reason}`);
 
 		let reportsChannel = message.guild.channels.find("name", "reports");
-		if(!reportsChannel) return message.channel.send("Channel ``reports`` introuvable.");
+		if(!reportsChannel) return message.channel.send("Couldn't find reports channel");
 
 		message.delete().catch(O_o=>{});
 		reportsChannel.send(reportEmbed);
@@ -137,36 +137,34 @@ client.on("message", message => {
 	// 	if(!member) return message.channel.send(':x: **Merci de mentionner un utilisateur à bannir de la table** :x:').then(m2=>m2.delete(10000))
 	// 	if(member.highestRole.calculatedPosition >= message.member.highestRole.calculatedPosition && message.author.id === message.guild.owner.id) return message.channel.send(':x: **Vous ne pouvez pas bannir cet utilisateur de la table** :x:')
 	// 	if(!member.bannable) return message.channel.send(':x: **Je ne peut pas bannir cet utilisateur** :x:')
-	// 	if(member.bannable || ) {}
 	// }
 
-	// if (!message.guild) return;
+	if(args[0].toLowerCase() === prefix + "ban"){
 
-  // if the message content starts with "!ban"
-  // if (message.content.startsWith('!ban')) {
-  //   const user = message.mentions.users.first();
-  //   if (user) {
-  //     const member = message.guild.member(user);
-  //     if (member) {
-  //       member
-  //         .ban({
-  //           reason: 'They were bad!',
-  //         })
-  //         .then(() => {
-  //           message.reply(`Successfully banned ${user.tag}`);
-  //         })
-  //         .catch(err => {
-  //           message.reply('I was unable to ban the member');
-  //           console.error(err);
-  //         });
-  //     } else {
-  //       message.reply("That user isn't in this guild!");
-  //     }
-  //   } else {
-  //     message.reply("You didn't mention the user to ban!");
-  //   }
-  // }
-
+    const user = message.mentions.users.first();
+    if (user) {
+      const member = message.guild.member(user);
+      if (member) {
+      	let reason1 = args.join(" ").slice(22);
+		if(!reason1) return message.channel.send("Merci de noous dire la raison de ce banissement.")
+        member
+          .ban({
+            reason: `${reason1}`,
+          })
+          .then(() => {
+            message.channel.send(`Vous avez banni ${user.tag} de la table du pétou`);
+          })
+          .catch(err => {
+            message.reply(', Je ne peux pas bannir ce membre');
+            console.error(err);
+          });
+      } else {
+        message.reply("Ce membre n'est pas sur le serveur");
+      }
+    } else {
+      message.reply("Vous n'avez pas mentionné de membre à bannir");
+    }
+  }
 });
 // MUTE - UNMUTE - REPORT - CLEAR - KICK - BAN --------------------------------------
 
